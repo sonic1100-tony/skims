@@ -18,7 +18,7 @@ resource "aws_eks_cluster" "skims-eks-cluster" {
   role_arn = aws_iam_role.skims-iam-role-eks-cluster.arn
   version = "1.21"
 
-  enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+  #enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 
   vpc_config {
     security_group_ids = [data.terraform_remote_state.network.outputs.skims-sg-eks-cluster_id]
