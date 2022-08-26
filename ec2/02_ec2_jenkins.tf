@@ -63,7 +63,7 @@ resource "aws_instance" "skims-ec2-jenkins" {
   
   #vpc_id        = data.terraform_remote_state.network.outputs.aws_vpc.vpc_skims_vpc_id
   subnet_id     = data.terraform_remote_state.network.outputs.subnet_skims_private_subnet01_id
-  vpc_security_group_ids = [data.terraform_remote_state.network.outputs.skims-sg-bastion_id]
+  vpc_security_group_ids = [data.terraform_remote_state.network.outputs.skims-sg-rds-jenkins_id]
 
 }
 

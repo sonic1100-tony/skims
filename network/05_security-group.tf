@@ -78,6 +78,15 @@ resource "aws_security_group" "skims-sg-rds" {
     to_port     = "3306"
   }
 
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "ingress security_group_rule for ssh"
+    from_port   = "22"
+    protocol    = "tcp"
+    self        = "false"
+    to_port     = "22"
+  }
+
   egress {
     cidr_blocks = ["10.0.1.0/24"]
     description = "egress security_group_rule for rds"
