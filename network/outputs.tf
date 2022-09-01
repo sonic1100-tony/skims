@@ -18,8 +18,12 @@ output "subnet_skims_private_subnet02_id" {
   value = aws_subnet.skims-private-subnet-02.id
 }
 
-output "subnet_skims_public-subnet01_id" {
+output "subnet_skims_public_subnet01_id" {
   value = aws_subnet.skims-public-subnet-01.id
+}
+
+output "subnet_skims_public_subnet02_id" {
+  value = aws_subnet.skims-public-subnet-02.id
 }
 
 ### Internet Gateway###
@@ -32,6 +36,10 @@ output "skims_igw_id" {
 ### Route Tables ###
 output "skims-route-table-pub-sub1_id" {
   value = aws_route_table.skims-route-table-pub-sub1.id
+}
+
+output "skims-route-table-pub-sub2_id" {
+  value = aws_route_table.skims-route-table-pub-sub2.id
 }
 
 output "skims-route-table-pri-sub1_id" {
