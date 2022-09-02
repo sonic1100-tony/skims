@@ -18,6 +18,8 @@ resource "aws_subnet" "skims-public-subnet-01" {
   tags = {
     Name        = "skims-public-subnet-01"
     "kubernetes.io/cluster/skims-public-eks-cluster" = "shared"
+    "kubernetes.io/cluster/skims-eks-cluster"        = "shared"
+    #"kubernetes.io/cluster/skims-eks-cluster"        = "owned"
     "kubernetes.io/role/elb"                         = "1"
   }
 
@@ -43,6 +45,8 @@ resource "aws_subnet" "skims-public-subnet-02" {
   tags = {
     Name        = "skims-public-subnet-02"
     "kubernetes.io/cluster/skims-public-eks-cluster" = "shared"
+    "kubernetes.io/cluster/skims-eks-cluster"        = "shared"
+    #"kubernetes.io/cluster/skims-eks-cluster"        = "owned"
     "kubernetes.io/role/elb"                         = "1"
   }
 
@@ -73,12 +77,14 @@ resource "aws_subnet" "skims-private-subnet-01" {
   tags = {
     Name                                     = "skims-private-subnet-01"
     "kubernetes.io/cluster/skims-eks-cluster" = "shared"
+    #"kubernetes.io/cluster/skims-eks-cluster" = "owned"
     "kubernetes.io/role/internal-elb"         = "1"
   }
 
   tags_all = {
     Name                                      = "skims-private-subnet-01"
     "kubernetes.io/cluster/skims-eks-cluster" = "shared"
+    #"kubernetes.io/cluster/skims-eks-cluster" = "owned"
     "kubernetes.io/role/internal-elb"         = "1"
   }
 
@@ -105,12 +111,14 @@ resource "aws_subnet" "skims-private-subnet-02" {
   tags = {
     Name                                      = "skims-private-subnet-02"
     "kubernetes.io/cluster/skims-eks-cluster" = "shared"
+    #"kubernetes.io/cluster/skims-eks-cluster" = "owned"
     "kubernetes.io/role/internal-elb"         = "1"
   }
 
    tags_all = {
      Name                                     = "skims-private-subnet-02"
     "kubernetes.io/cluster/skims-eks-cluster" = "shared"
+    #"kubernetes.io/cluster/skims-eks-cluster" = "owned"
     "kubernetes.io/role/internal-elb"         = "1"
    }
 

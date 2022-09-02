@@ -1,0 +1,22 @@
+$ eksctl utils associate-iam-oidc-provider \
+    --region "ap-northeast-2" \
+    --cluster "skims-eks-cluster" \
+    --approve
+$ curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/iam_policy.json
+$ aws iam create-policy \
+--policy-name skims-AWSLoadBalancerControllerIAMPolicy \
+--policy-document file://iam-policy.json
+
+$ eksctl delete iamserviceaccount --cluster "skims-eks-cluster" --name=aws-load-balancer-controller
+
+$ eksctl create iamserviceaccount \
+--cluster="skims-eks-cluster" \
+--namespace=kube-system \
+--name=aws-load-balancer-controller \
+--attach-policy-arn="arn:aws:iam::504441673365:policy/skims-AWSLoadBalancerControllerIAMPolicy" \
+--override-existing-serviceaccounts \
+--approve
+
+
+
+    https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2039
