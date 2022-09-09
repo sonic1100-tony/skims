@@ -91,3 +91,4 @@ tags
 # End of https://www.toptal.com/developers/gitignore/api/vim,terraform,osx
 
 dev_src/
+service_yaml/istio/
