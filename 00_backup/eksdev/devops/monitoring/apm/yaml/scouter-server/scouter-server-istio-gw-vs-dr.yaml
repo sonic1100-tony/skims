@@ -1,0 +1,46 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: scouter-server-gw
+  namespace: monitoring
+spec:
+  selector:
+    istio: devops-istio-ingressgateway
+  servers:
+  - hosts:
+    - eks-apmserver.klsdev.kakaoinsure.net
+    port:
+      name: scouter-server
+      number: 80
+      protocol: HTTP
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: scouter-server-vs
+  namespace: monitoring
+spec:
+  gateways:
+  - scouter-server-gw
+  hosts:
+  - scouter-server.monitoring.svc.cluster.local
+  - eks-apmserver.klsdev.kakaoinsure.net
+  http:
+  - route:
+    - destination:
+        host: scouter-server.monitoring.svc.cluster.local
+        port:
+          number: 6180
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: scouter-server-dr
+  namespace: monitoring
+spec:
+  host: scouter-server.monitoring.svc.cluster.local
+  trafficPolicy:
+    connectionPool:
+      http:
+        idleTimeout: 50s
+

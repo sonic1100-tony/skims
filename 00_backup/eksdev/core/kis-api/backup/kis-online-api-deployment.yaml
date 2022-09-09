@@ -1,0 +1,93 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: kis-online-api
+  namespace: core
+  labels:
+    app: kis-online-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kis-online-api
+  template:
+    metadata:
+      labels:
+        app: kis-online-api
+      annotations:
+        actuator.prometheus.io.path: /actuator/prometheus
+        actuator.prometheus.io.port: '8080'
+        actuator.prometheus.io.scrape: 'true'
+    spec:
+      volumes:
+        - emptyDir: {}
+          name: agent-dir
+        - name: kis-online-api-ins-data-kis
+          persistentVolumeClaim:
+            claimName: kis-online-api-ins-data-kis
+        - name: kis-online-api-ins-data-fep
+          persistentVolumeClaim:
+            claimName: kis-online-api-ins-data-fep
+        - hostPath:
+            path: /var/log/k8s/logs/core/kis-online-api-logs
+          name: kis-online-api-logs
+
+      initContainers:
+        - name: kis-online-api-init
+          image: 857616209275.dkr.ecr.ap-northeast-2.amazonaws.com/busybox:1.35.0
+          command:
+            - /bin/sh
+            - -c
+          args:
+          - |
+            wget https://github.com/jm2t2r/springboot-sample/raw/main/scouter.agent.jar && cp scouter.agent.jar /scouter-agent/scouter.agent.jar &&  chown -R 1000:1000 /logs
+          volumeMounts:
+          - mountPath: /scouter-agent
+            name: agent-dir
+          - mountPath: /logs
+            name: kis-online-api-logs
+          imagePullPolicy: IfNotPresent
+      containers:
+        - name: kis-online-api
+          image: >-
+            857616209275.dkr.ecr.ap-northeast-2.amazonaws.com/core/kis-online-api:eksdev
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            #- name: JAVA_OPTS
+            - name: JAVA_TOOL_OPTIONS
+              value: >-
+                -Dservice_key=5df36bdf-2e39-4676-8293-c43356858342
+                -Dapplication_name=kis-online-api -Djava.awt.headless=true
+                -Dfile.encoding=UTF-8 -Xms6G -Xmx6G -XX:+UseG1GC
+                -XX:+HeapDumpOnOutOfMemoryError
+                -XX:HeapDumpPath=/logs/dump/JEN-dev22-e7cf28d-heapdump.hprof
+                -XX:+DisableExplicitGC -XX:+ScavengeBeforeFullGC
+                -Dnetworkaddress.cache.ttl=1
+                -Dnetworkaddress.cache.negative.ttl=0 -Dsun.net.inetaddr.ttl=1
+                -Dorg.apache.catalina.security.SecurityListener.UMASK=0007
+                -Djava.security.egd=file:/dev/./urandom
+                -Dproject.name=kis-online-api -Dphase=dev -Drunning.port=8080
+                -Dserver.port=8080 -Dspring.profiles.active="klsdev,eks"
+                -Dprewarm.enabled=true -Dapplication.log.dir=/ins_data_kis/logs/kis-api
+                -javaagent:/scouter-agent/scouter.agent.jar -Dnet_collector_ip=scouter-server.monitoring.svc.cluster.local  -Dnet_collector_udp_port=6100
+                -Dnet_collector_tcp_port=6100 -Dlog_dir=./logs
+            - name: TZ
+              value: Asia/Seoul
+            - name: PHASE
+              value: dev
+          volumeMounts:
+            - mountPath: /scouter-agent
+              name: agent-dir
+            - mountPath: /ins_data_kis
+              name: kis-online-api-ins-data-kis
+            - mountPath: /ins_data_fep
+              name: kis-online-api-ins-data-fep
+
+          imagePullPolicy: Always
+      restartPolicy: Always
+      nodeSelector:
+        eks.amazonaws.com/nodegroup: sk-dev-eks-core-worker-node
+

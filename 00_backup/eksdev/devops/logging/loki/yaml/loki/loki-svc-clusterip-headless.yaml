@@ -1,0 +1,18 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: loki-headless
+  namespace: logging
+  labels:
+    app: loki
+spec:
+  ports:
+    - name: http-metrics
+      protocol: TCP
+      port: 3100
+      targetPort: http-metrics
+  selector:
+    app: loki
+  clusterIP: None
+  type: ClusterIP
+  sessionAffinity: None

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+  namespace: logging
+  labels:
+    app: elasticsearch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: elasticsearch
+      containers:
+        - name: elasticsearch
+          image: elastic/elasticsearch:6.4.0
+          env:
+            - name: discovery.type
+              value: single-node
+            - name: ES_JAVA_OPTS
+              value: -Xms1g -Xmx1g
+            - name: bootstrap.memory_lock
+              value: "true"
+                #- name: xpack.security.enable
+                #value: "true"
+          ports:
+            - containerPort: 9200
+            - containerPort: 9300
+          volumeMounts:
+            - name: storage
+              mountPath: /usr/share/elastic/search/data
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        eks.amazonaws.com/nodegroup: sk-dev-eks-devops-worker-node
+

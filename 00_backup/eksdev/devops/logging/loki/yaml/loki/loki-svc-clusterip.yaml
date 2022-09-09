@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: loki
+  namespace: logging
+  labels:
+    app: loki
+spec:
+  ports:
+    - name: http-metrics
+      protocol: TCP
+      port: 3100
+      targetPort: http-metrics
+  selector:
+    app: loki
+  type: ClusterIP
+  sessionAffinity: None

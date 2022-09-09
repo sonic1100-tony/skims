@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-server
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus-server
+  template:
+    metadata:
+      labels:
+        app: prometheus-server
+    spec:
+      initContainers:
+        - name: init-chown-data
+          image: busybox:1.35.0
+          command:
+            - chown
+            - '-R'
+            - '472:472'
+            - /prometheus
+          volumeMounts:
+            - name: storage
+              mountPath: /prometheus/
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 0
+            runAsNonRoot: false
+      containers:
+        - name: prometheus
+          image: prom/prometheus:v2.35.0
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/prometheus/"
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: prometheus-config-volume
+              mountPath: /etc/prometheus/
+            - name: storage
+              mountPath: /prometheus/
+          imagePullPolicy: IfNotPresent
+      volumes:
+        - name: prometheus-config-volume
+          configMap:
+            defaultMode: 420
+            name: prometheus-server-conf
+        - name: storage
+          persistentVolumeClaim:
+            claimName: prometheus-server
+      restartPolicy: Always
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        eks.amazonaws.com/nodegroup: sk-dev-eks-devops-worker-node
+      securityContext:
+        runAsUser: 472
+        runAsGroup: 472
+        fsGroup: 472
+

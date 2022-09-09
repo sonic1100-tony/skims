@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kui-ncrm
+  namespace: core
+  labels:
+    app: kui-ncrm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kui-ncrm
+  template:
+    metadata:
+      labels:
+        app: kui-ncrm
+      annotations:
+        actuator.prometheus.io.path: /ncrmwebroot/actuator/prometheus
+        actuator.prometheus.io.port: '8080'
+        actuator.prometheus.io.scrape: 'true'
+    spec:
+      volumes:
+      - hostPath:
+          path: /home/ec2-user/logs/core/kui-ncrm-logs
+        name: kui-ncrm-logs
+      - emptyDir: {}
+        name: agent-dir
+
+      initContainers:
+      - name: kui-ncrm-init
+        image: 857616209275.dkr.ecr.ap-northeast-2.amazonaws.com/busybox:1.35.0
+        command:
+           - /bin/sh
+           - -c
+        args:
+        - |
+           wget https://github.com/jm2t2r/springboot-sample/raw/main/scouter.agent.jar && cp scouter.agent.jar /scouter-agent/scouter.agent.jar &&  chown -R 1000:1000 /logs
+        volumeMounts:
+        - mountPath: /scouter-agent
+          name: agent-dir
+        - mountPath: /logs
+          name: kui-ncrm-logs
+
+      containers:
+      - name: kui-ncrm
+        image: >-
+          857616209275.dkr.ecr.ap-northeast-2.amazonaws.com/core/kui-ncrm:eksdev
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: sandbox
+        - name: JAVA_OPTS
+          value: >-
+            -Dapplication_name=kui-ncrm -Djava.awt.headless=true
+            -Dfile.encoding=UTF-8 -Xms2G -Xmx2G -XX:+UseG1GC
+            -XX:+HeapDumpOnOutOfMemoryError
+            -XX:HeapDumpPath=/home/ec2-user/logs/dump/JEN-master78-4067f1c-heapdump.hprof
+            -XX:+DisableExplicitGC -XX:+ScavengeBeforeFullGC
+            -Dnetworkaddress.cache.ttl=1
+            -Dnetworkaddress.cache.negative.ttl=0 -Dsun.net.inetaddr.ttl=1
+            -Dorg.apache.catalina.security.SecurityListener.UMASK=0007
+            -Djava.security.egd=file:/dev/./urandom -Dproject.name=kui-ncrm
+            -Dphase=dev -Drunning.port=8080 -Dserver.port=8080
+            -Dspring.profiles.active=klsdev
+            -Dsso.ncrm-url=http://eks-kui-ncrm.klsdev.kakaoinsure.net
+            -Dncrm.kis-online=http://eks-kis-api.klsdev.kakaoinsure.net
+            -Dncrm.ltr-online=http://eks-core-api.klsdev.kakaoinsure.net
+            -Dapplication.log.dir=/home/ec2-user/logs
+            -javaagent:/scouter-agent/scouter.agent.jar -Dnet_collector_ip=scouter-server.monitoring.svc.cluster.local  -Dnet_collector_udp_port=6100
+            -Dnet_collector_tcp_port=6100 -Dlog_dir=./logs
+
+        - name: TZ
+          value: Asia/Seoul
+        - name: PHASE
+          value: sandbox
+        volumeMounts:
+        - mountPath: /home/ec2-user/logs
+          name: kui-ncrm-logs
+        - mountPath: /scouter-agent
+          name: agent-dir
+        imagePullPolicy: Always
+      nodeSelector:
+        eks.amazonaws.com/nodegroup: sk-dev-eks-core-worker-node
+      restartPolicy: Always

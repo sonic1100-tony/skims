@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  namespace: logging
+  labels:
+    app: kibana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kibana
+  template:
+    metadata:
+      labels:
+        app: kibana
+    spec:
+      containers:
+        - name: kibana
+          image: elastic/kibana:6.4.0
+          env:
+            - name: SERVER_NAME
+              value: kibana.kubenetes.example.com
+            - name: ELASTICSEARCH_URL
+              #value: http://elasticsearch:9200
+              value: http://elasticsearch.logging.svc.cluster.local:9200
+          ports:
+            - containerPort: 5601
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            readOnlyRootFilesystem: false  #if true , write permission error.
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 4800
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        eks.amazonaws.com/nodegroup: sk-dev-eks-devops-worker-node
