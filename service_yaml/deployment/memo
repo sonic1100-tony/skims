@@ -1,0 +1,46 @@
+docker run -d -p 8081:8080 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/skimsudw:latest
+docker run -d -p 8082:8080 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/skimspln:latest
+docker run -d -p 8083:8080 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/skimspay:latest
+docker run -d -p 8084:8080 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/skimsigd:latest
+docker run -d -p 8085:8080 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/skimsfin:latest
+docker run -d -p 8086:8080 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/skimscus:latest
+docker run -d -p 8087:8080 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/skimscnr:latest
+docker run -d -p 80:8080 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/frontend:latest
+                       
+
+13.125.214.246:8081/udw/swagger-ui/index.html
+13.125.214.246:8082/pln/swagger-ui/index.html
+13.125.214.246:8083/pay/swagger-ui/index.html
+13.125.214.246:8084/igd/swagger-ui/index.html
+13.125.214.246:8085/fin/swagger-ui/index.html
+13.125.214.246:8086/cus/swagger-ui/index.html
+13.125.214.246:8087/cnr/swagger-ui/index.html
+
+
+
+skims-msa.com/udw/swagger-ui/index.html
+skims-msa.com/pln/swagger-ui/index.html
+skims-msa.com/pay/swagger-ui/index.html
+skims-msa.com/igd/swagger-ui/index.html
+skims-msa.com/fin/swagger-ui/index.html
+skims-msa.com/cus/swagger-ui/index.html
+skims-msa.com/cnr/swagger-ui/index.html
+
+
+kf udw/udw-deployment.yaml
+kf pln/pln-deployment.yaml
+kf pay/pay-deployment.yaml
+kf igd/igd-deployment.yaml
+kf fin/fin-deployment.yaml
+kf cus/cus-deployment.yaml
+kf cnr/cnr-deployment.yaml
+
+kdel -f udw/udw-deployment.yaml
+kdel -f pln/pln-deployment.yaml
+kdel -f pay/pay-deployment.yaml
+kdel -f igd/igd-deployment.yaml
+kdel -f fin/fin-deployment.yaml
+kdel -f cus/cus-deployment.yaml
+kdel -f cnr/cnr-deployment.yaml
+
+

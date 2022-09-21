@@ -1,0 +1,39 @@
+##################################################################################################
+# skimsigd service
+##################################################################################################
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skims-igd-api
+  labels:
+    app: skims-igd-api    
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skims-igd-api
+  template:
+    metadata:
+      labels:
+        app: skims-igd-api
+    spec:
+      containers:
+      - name: skims-igd-api
+        image: 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/skimsigd:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-skims-igd-api
+spec:
+  selector:
+    app: skims-igd-api
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+

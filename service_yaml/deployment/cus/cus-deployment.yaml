@@ -1,0 +1,39 @@
+##################################################################################################
+# skimscus service
+##################################################################################################
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skims-cus-api
+  labels:
+    app: skims-cus-api    
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skims-cus-api
+  template:
+    metadata:
+      labels:
+        app: skims-cus-api
+    spec:
+      containers:
+      - name: skims-cus-api
+        image: 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/skimscus:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-skims-cus-api
+spec:
+  selector:
+    app: skims-cus-api
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+

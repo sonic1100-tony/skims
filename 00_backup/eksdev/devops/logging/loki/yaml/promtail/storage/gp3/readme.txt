@@ -1,6 +1,0 @@
-gp3로 하면 아래와 같은 에러 발생.
-
- ebs.csi.aws.com_ebs-csi-controller-6bd5dd8fd8-9pfwl_a33c0d7f-471c-40fc-819b-1510302282d4  failed to provision volume with StorageClass "gp3": rpc error: code = Internal desc = Could not create volume "pvc-62e48fc7-c4af-479e-818e-bb6a42505798": could not create volume in EC2: UnauthorizedOperation: You are not authorized to perform this operation. Encoded authorization failure message: Fv-uBDm5vhPIjJz7veu_ElnMUF_uTSPmnoIH6C9QRwYp3LLG0tRHp_VqYKRlMix7ReGot8HFFmv1dZ00zWyfSIkW4FJ0Isvxo5llEU-P0xBRzV7q3zpejyMKgaHBcNvipLCuRd0jZoBPSIEsjQ3rtOjEG1DNUS8ht5jynuNgGd9r6Qz6t3LaJnaDATafnWh5bKWZLaBTjHU84GzdDI0XYVJOW6EBmfZpEFY-fubLeAoZrL44lcocQ-RiKqHrrTsWyuxFt6GcXiSc0caiHuuasdRDUmjhFO26MD-s25k9VPxjJW5DxKEAXvxYgB_R72dqfI0K71LgEBWXpeaPxMSJHgqZlLZJD4Gn6jZ9dnrKPpSvmpLKS6Mv8cuQMnOfx39xunGTvMnB2KyRU3OXC9HujgD2gDRrWvKsB9s4M1lNu1lM2lJS_zJFMfkH7fM5baOSkvkkKDNKTamjMr2rWoTgQ1TKgrzFTU3CqsxVzM8sRO9IPeQgl2rhN_gN2I7Owka7HxX2bbbeaW7m_ThjxN_aeixcdtkKDN3rOSvELzYixyPO-1AHhKsg9DSZ2yVlf4uD_6V4ulPGL8xLxtDZMpXg_l9uoctYFj3pdkCF7S50yK67PmBG61Cpkw
-           status code: 403, request id: d347efec-9a89-4421-b07d-0cfd7d15e602
-  Normal   ExternalProvisioning  2s (x6 over 71s)  persistentvolume-controller  waiting for a volume to be created, either by external provisioner "ebs.csi.aws.com" or manually created by system administrator
-

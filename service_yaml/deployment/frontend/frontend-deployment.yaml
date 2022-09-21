@@ -1,0 +1,39 @@
+##################################################################################################
+# skimsfrontend service
+##################################################################################################
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skims-frontend-api
+  labels:
+    app: skims-frontend-api    
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skims-frontend-api
+  template:
+    metadata:
+      labels:
+        app: skims-frontend-api
+    spec:
+      containers:
+      - name: skims-frontend-api
+        image: 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/frontend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-skims-frontend-api
+spec:
+  selector:
+    app: skims-frontend-api
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+

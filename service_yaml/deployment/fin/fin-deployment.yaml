@@ -1,0 +1,39 @@
+##################################################################################################
+# skimsfin service
+##################################################################################################
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skims-fin-api
+  labels:
+    app: skims-fin-api    
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skims-fin-api
+  template:
+    metadata:
+      labels:
+        app: skims-fin-api
+    spec:
+      containers:
+      - name: skims-fin-api
+        image: 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/skimsfin:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-skims-fin-api
+spec:
+  selector:
+    app: skims-fin-api
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+

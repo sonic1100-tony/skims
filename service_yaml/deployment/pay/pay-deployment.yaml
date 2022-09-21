@@ -1,0 +1,39 @@
+##################################################################################################
+# skimspay service
+##################################################################################################
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skims-pay-api
+  labels:
+    app: skims-pay-api    
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skims-pay-api
+  template:
+    metadata:
+      labels:
+        app: skims-pay-api
+    spec:
+      containers:
+      - name: skims-pay-api
+        image: 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/skimspay:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-skims-pay-api
+spec:
+  selector:
+    app: skims-pay-api
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+

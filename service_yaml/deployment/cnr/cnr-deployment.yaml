@@ -1,0 +1,39 @@
+##################################################################################################
+# skimscnr service
+##################################################################################################
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skims-cnr-api
+  labels:
+    app: skims-cnr-api    
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skims-cnr-api
+  template:
+    metadata:
+      labels:
+        app: skims-cnr-api
+    spec:
+      containers:
+      - name: skims-cnr-api
+        image: 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/skimscnr:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-skims-cnr-api
+spec:
+  selector:
+    app: skims-cnr-api
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+

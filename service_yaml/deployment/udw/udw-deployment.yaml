@@ -1,0 +1,39 @@
+##################################################################################################
+# skimsudw service
+##################################################################################################
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skims-udw-api
+  labels:
+    app: skims-udw-api    
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skims-udw-api
+  template:
+    metadata:
+      labels:
+        app: skims-udw-api
+    spec:
+      containers:
+      - name: skims-udw-api
+        image: 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/skimsudw:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-skims-udw-api
+spec:
+  selector:
+    app: skims-udw-api
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+
