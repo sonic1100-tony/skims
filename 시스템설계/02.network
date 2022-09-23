@@ -1,0 +1,6 @@
+## terraform code
+
+### backend 구성
+#### 00_providers.tf
+terraform-backend 디렉토리 생성 후 작성
+```terraform
