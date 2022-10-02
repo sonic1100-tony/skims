@@ -1,3 +1,19 @@
+ jenkins 
+ admin
+ skims!@12
+ 
+ 
+ i.	git clone https://github.com/ByounggwanLee/skims.git
+ 
+ - id: cnr:8082
+ - id: cus:8083
+ - id: fin:8084
+ - id: igd:8085
+ - id: pay:8086
+ - id: pln:8087
+ - id: udw:8088
+
+
 docker run -d -p 8081:8080 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/skimsudw:latest
 docker run -d -p 8082:8080 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/skimspln:latest
 docker run -d -p 8083:8080 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/skimspay:latest
@@ -34,6 +50,7 @@ kf igd/igd-deployment.yaml
 kf fin/fin-deployment.yaml
 kf cus/cus-deployment.yaml
 kf cnr/cnr-deployment.yaml
+kf frontend/frontend-deployment.yaml
 
 kdel -f udw/udw-deployment.yaml
 kdel -f pln/pln-deployment.yaml
@@ -42,5 +59,272 @@ kdel -f igd/igd-deployment.yaml
 kdel -f fin/fin-deployment.yaml
 kdel -f cus/cus-deployment.yaml
 kdel -f cnr/cnr-deployment.yaml
+kdel -f frontend/frontend-deployment.yaml
 
 
+
+curl service-skims-udw-api.default.svc.cluster.local:8080/udw/swagger-ui/index.html
+curl service-skims-pln-api.default.svc.cluster.local:8080/pln/swagger-ui/index.html
+curl service-skims-pay-api.default.svc.cluster.local:8080/pay/swagger-ui/index.html
+curl service-skims-igd-api.default.svc.cluster.local:8080/igd/swagger-ui/index.html
+curl service-skims-fin-api.default.svc.cluster.local:8080/fin/swagger-ui/index.html
+curl service-skims-cus-api.default.svc.cluster.local:8080/cus/swagger-ui/index.html
+curl service-skims-cnr-api.default.svc.cluster.local:8080/cnr/swagger-ui/index.html
+curl service-skims-frontend-api.default.svc.cluster.local:8080
+
+
+
+
+
+수정파일
+frontend/src/pages/biz/pln/NewPlanMain.vue
+
+skimspln/src/main/java/com/skims/client/plnFeignClient.java 
+skimscnr/src/main/java/com/skims/client/cnrFeignClient.java 
+skimsfin/src/main/java/com/skims/client/finFeignClient.java 
+skimspay/src/main/java/com/skims/client/payFeignClient.java 
+skimsigd/src/main/java/com/skims/client/IgdFeignClient.java
+
+
+
+
+
+
+kubectl logs pod/skims-fin-api-6649d959c7-hplfh 
+kubectl logs pod/skims-igd-api-69955bc8d-4zqsp  
+kubectl logs pod/skims-pay-api-69f66ccdbb-bktz5 
+kubectl logs pod/skims-pln-api-594bd7d4b6-tkhn9 
+kubectl logs pod/skims-udw-api-7dbf74f494-5ckwq 
+
+
+
+
+curl -XGET http://skims-msa.com/cus/swagger-ui/index.html
+
+
+
+curl -XGET http://skims-msa.com/fin/swagger-ui/index.html
+curl -XGET http://skims-msa.com/igd/swagger-ui/index.html
+curl -XGET http://skims-msa.com/pay/swagger-ui/index.html
+curl -XGET http://skims-msa.com/pln/swagger-ui/index.html
+curl -XGET http://skims-msa.com/udw/swagger-ui/index.html
+
+
+
+504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/frontend
+
+/home/ubuntu/skims/dev_src/skimspln/src/main/java/com/skims/client/CnrFeignClient.java
+/home/ubuntu/skims/dev_src/skimsfin/src/main/resources/application.yml
+
+
+ - id: cnr:8082
+ - id: cus:8083
+ - id: fin:8084
+ - id: igd:8085
+ - id: pay:8086
+ - id: pln:8087
+ - id: udw:8088
+
+
+service-skims-cus-api.default.svc.cluster.local
+service-skims-cnr-api.default.svc.cluster.local
+service-skims-igd-api.default.svc.cluster.local
+
+
+
+curl service-skims-udw-api.default.svc.cluster.local:8080/udw/swagger-ui/index.html
+curl service-skims-pln-api.default.svc.cluster.local:8080/pln/swagger-ui/index.html
+curl service-skims-pay-api.default.svc.cluster.local:8080/pay/swagger-ui/index.html
+curl service-skims-igd-api.default.svc.cluster.local:8080/igd/swagger-ui/index.html
+curl service-skims-fin-api.default.svc.cluster.local:8080/fin/swagger-ui/index.html
+curl service-skims-cus-api.default.svc.cluster.local:8080/cus/swagger-ui/index.html
+curl service-skims-cnr-api.default.svc.cluster.local:8080/cnr/swagger-ui/index.html
+
+
+
+service-skims-cnr-api.default.svc.cluster.local
+service-skims-igd-api.default.svc.cluster.local
+service-skims-cnr-api.default.svc.cluster.local
+service-skims-pay-api.default.svc.cluster.local
+service-skims-cnr-api.default.svc.cluster.local
+service-skims-igd-api.default.svc.cluster.local
+service-skims-cnr-api.default.svc.cluster.local
+service-skims-pay-api.default.svc.cluster.local
+
+cnr,fin,pay
+
+
+skimspln 
+skimscnr 
+skimsfin 
+skimspay 
+
+@전체
+현재 AWS EKS, istio작업까지 완료 하여 서비스를 올렸는데 안되는 부분이 있어서
+frontend부분 수정하고 있습니다.
+정일호 매니저와 확인 후 완료 되면 다시 공지하겠습니다.
+
+일단 서버 URL 접속 방법 공유합니다.
+C:\Windows\System32\drivers\etc\hosts 파일에 아래 내용 추가
+3.39.45.71      skims-msa.com
+브라우저에서 http://skims-msa.com/ 접속 
+
+@정일호
+aws환경에서는 gateway서버 대신 istio service mash환경으로 구성했는데 URL수정이 필요해보입니다.
+아래 파일들에서 게이트웨이 서버 경로를 localhost:8081 => skims-msa.com로 변경해봤는데 설계조회 메뉴 클릭한 후에는 다른 메뉴로 이동이 안되는 현상이 나오네요
+한번 보시고 시간 될때 통화하면서 조치했으면 합니다.
+
+[대상파일]
+frontend/src/pages/biz/cus/CusSearch.vue
+frontend/src/pages/biz/pln/NewPlanMain.vue
+frontend/src/pages/biz/cus/CusSearch.vue
+frontend/src/pages/biz/fin/Receive.vue
+
+일단 서비스 URL 접속 방법 공유합니다.
+C:\Windows\System32\drivers\etc\hosts 파일에 아래 내용 추가
+3.39.45.71      skims-msa.com
+브라우저에서 http://skims-msa.com/ 접속 
+
+
+
+
+F12 누르고
+설계조회 화면에서 조회 버튼 눌렀을때
+
+
+===================================================================
+서버 정보 : 13.125.214.246
+key : sk-rds-key.pem
+
+[소스 경로]
+cd /home/ubuntu/skims/dev_src/skims/frontend
+
+[이미지 생성 및 ECR배포]
+docker build -t 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/frontend:latest .
+docker push 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com/frontend:latest
+
+ * push 할때 "denied: Your authorization token has expired. Reauthenticate and try again." 에러 나면 ecr로그인 다시함.
+ 
+ $ aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 504441673365.dkr.ecr.ap-northeast-2.amazonaws.com
+
+WARNING! Your password will be stored unencrypted in /home/ubuntu/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+
+
+
+[pod 재시작]
+cd /home/ubuntu/skims/service_yaml/deployment/frontend
+pod 중지 : kubectl delete -f frontend-deployment.yaml
+pod 시작 : kubectl create -f frontend-deployment.yaml
+
+[확인]
+명령어 실행 후 STATUS에 Running 표시되면 완료임.
+$ kubectl get pod 
+
+NAME                                 READY   STATUS    RESTARTS   AGE
+skims-frontend-api-64b7659f5-z7lmz   2/2     Running   0          31m
+
+
+========================================================================
+
+
+do
+./build.sh skimscus latest
+./build.sh skimsfin latest
+./build.sh skimsigd latest
+./build.sh skimspln latest
+./build.sh skimsfin latest
+./build.sh skimspay latest
+
+
+
+
+로그 확인
+서버 정보 : 13.125.214.246
+key : sk-rds-key.pem
+
+$ kubectl get pod 실행 후 해당 pod명 으로 로그 확인 ( -f 옵션은 실시간)
+
+$ kubectl get pod
+NAME                                 READY   STATUS    RESTARTS   AGE
+skims-cnr-api-69cbfd5cf7-62fsv       2/2     Running   0          3m49s
+skims-cus-api-566dc7f449-z9ms4       2/2     Running   0          3m51s
+skims-fin-api-6649d959c7-768k5       2/2     Running   0          3m53s
+skims-frontend-api-64b7659f5-f7qhr   2/2     Running   0          9h
+skims-igd-api-69955bc8d-zrkdg        2/2     Running   0          3m54s
+skims-pay-api-69f66ccdbb-wclnj       2/2     Running   0          3m55s
+skims-pln-api-594bd7d4b6-ncmt7       2/2     Running   0          3m56s
+skims-udw-api-7dbf74f494-x46n7       2/2     Running   0          3m57s
+
+
+$ kubectl logs -f skims-pln-api-594bd7d4b6-ncmt7
+
+
+env url modify 
+
+cp -f IgdFeignClient.java skims/skimscnr/src/main/java/com/skims/client/IgdFeignClient.java
+
+
+
+rm /etc/localtime
+root@ip-10-0-1-246:/home/ubuntu/skims/test# ln -s /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+node {
+        stage('git clone') {
+            echo 'eks-pipeline start'
+            try {
+                sh 'rm -rf core-boot'
+            }catch(e)
+            {
+                sh 'echo "core-boot not found"'
+            }
+            sh 'git clone http://gitlab.klsdev.kakaoinsure.net/core/core-boot.git'
+        }
+
+
+        stage('build') {
+            dir('core-boot') {
+                sh './gradlew :core-boot-api:build -x test --refresh-dependencies -Dstage=dev -DincludeSubmodule=true --init-script /home/ec2-user/.gradle/init-sandbox.gradle --info'
+            }
+        }
+
+        stage('dockerizing') {
+            dir('core-boot/core-boot-api') {
+                sh 'sudo docker build --no-cache -t core/core-boot-api .'
+                sh 'sudo docker tag  core/core-boot-api 857616209275.dkr.ecr.ap-northeast-2.amazonaws.com/core/core-boot-api:eksdev-${BUILD_NUMBER}'
+            }
+        }
+
+        stage('push image to ECR') {
+            dir('core-boot') {
+                sh 'sudo aws ecr get-login-password --region ap-northeast-2 | sudo docker login --username AWS --password-stdin 857616209275.dkr.ecr.ap-northeast-2.amazonaws.com'
+                sh 'sudo docker push 857616209275.dkr.ecr.ap-northeast-2.amazonaws.com/core/core-boot-api:eksdev-${BUILD_NUMBER}'
+            }
+         }
+
+        stage('deploy to k8s') {
+            sh 'envsubst < /home/ec2-user/yaml/template/core-api-deployment-template.yaml > /home/ec2-user/yaml/core-api-deployment.yaml'
+            sh 'kubectl apply -f /home/ec2-user/yaml/core-api-deployment.yaml'
+        }
+
+        stage('end') {
+            echo 'eks-pipeline end'
+         }
+}
