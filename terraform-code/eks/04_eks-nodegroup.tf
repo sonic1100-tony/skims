@@ -3,7 +3,7 @@ resource "aws_eks_node_group" "skims-eks-nodegroup" {
   node_group_name = "skims-eks-nodegroup"
   node_role_arn   = aws_iam_role.skims-iam-role-eks-nodegroup.arn
   subnet_ids      = [data.terraform_remote_state.network.outputs.subnet_skims_private_subnet01_id, data.terraform_remote_state.network.outputs.subnet_skims_private_subnet02_id]
-  instance_types = ["t3.medium"]
+  instance_types = ["t3a.medium"]
   disk_size = 20
 
   labels = {
@@ -11,9 +11,9 @@ resource "aws_eks_node_group" "skims-eks-nodegroup" {
   }
 
   scaling_config {
-    desired_size = 2
+    desired_size = 3
     min_size     = 2
-    max_size     = 10
+    max_size     = 4
   }
 
   depends_on = [

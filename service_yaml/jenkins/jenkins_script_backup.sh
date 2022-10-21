@@ -59,7 +59,7 @@ node {
         
         stage('build') {
             dir('./') {
-                sh './build.sh skimscus ${BUILD_NUMBER}'
+                sh './cus-build.sh skimscus ${BUILD_NUMBER}'
             }
         }
         
@@ -168,7 +168,7 @@ node {
         
         stage('build') {
             dir('./') {
-                sh './build.sh skimsigd ${BUILD_NUMBER}'
+                sh './igd-build.sh skimsigd ${BUILD_NUMBER}'
             }
         }
         

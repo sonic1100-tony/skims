@@ -24,6 +24,12 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
+        # resources:
+        #   requests:
+        #     cpu: 200m
+        #   limits:
+        #     cpu: 1200m
+
 ---
 apiVersion: v1
 kind: Service
@@ -37,3 +43,32 @@ spec:
     port: 8080
     targetPort: 8080
 
+---
+##################################################################################################
+# skimscnr hpa
+##################################################################################################
+# apiVersion: autoscaling/v2beta2
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: skims-cnr-hpa
+#   namespace: default
+# spec:
+#   minReplicas: 1
+#   maxReplicas: 5
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: skims-cnr-api
+#   metrics:
+#   - resource:
+#       name: cpu
+#       target:
+#         averageUtilization: 50
+#         type: Utilization
+#     type: Resource
+#   - resource:
+#       name: memory
+#       target:
+#         averageValue: 1Gi
+#         type: AverageValue
+#     type: Resource

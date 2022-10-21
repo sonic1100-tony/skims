@@ -101,7 +101,7 @@ data:
         url: 'http://3.39.207.47:3000'
       tracing:
         in_cluster_url: "http://tracing.istio-system:16685/jaeger"
-        use_grpc: true        
+        use_grpc: true
     identity:
       cert_file: ""
       private_key_file: ""
@@ -412,8 +412,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: "kiali"
   annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+  #   service.beta.kubernetes.io/aws-load-balancer-type: "nlb" #외부용
+	#   service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing" #public subnet에 배치
 spec:
   ports:
   - name: http
@@ -425,6 +425,7 @@ spec:
   selector:
     app.kubernetes.io/name: kiali
     app.kubernetes.io/instance: kiali
+  sessionAffinity: None
   type: LoadBalancer
 ...
 ---

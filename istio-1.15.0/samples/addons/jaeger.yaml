@@ -61,8 +61,11 @@ metadata:
   namespace: istio-system
   labels:
     app: jaeger
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"    
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - name: http-query
       port: 80

@@ -142,6 +142,9 @@ curl service-skims-cnr-api.default.svc.cluster.local:8080/cnr/swagger-ui/index.h
 
 
 
+
+
+
 service-skims-cnr-api.default.svc.cluster.local
 service-skims-igd-api.default.svc.cluster.local
 service-skims-cnr-api.default.svc.cluster.local
@@ -328,3 +331,51 @@ node {
             echo 'eks-pipeline end'
          }
 }
+
+
+
+
+
+
+      prometheus:
+        url: "http://prometheus-k8s.monitoring:9090/"
+      grafana:
+        enabled: true
+        in_cluster_url: 'http://grafana.monitoring:3000/'
+        url: 'http://3.39.207.47:3000'
+
+
+
+부하발생
+
+kubectl run -i --tty load-generator --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://php-apache; done"
+
+
+ 
+kubectl run -i --tty load-generator0 --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 3; do wget -q -O- http://service-skims-udw-api.default.svc.cluster.local:8080/udw/swagger-ui/index.html; done"
+kubectl run -i --tty load-generator0 --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 3; do wget -q -O- http://service-skims-pln-api.default.svc.cluster.local:8080/pln/swagger-ui/index.html; done"
+kubectl run -i --tty load-generator0 --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 3; do wget -q -O- http://service-skims-pay-api.default.svc.cluster.local:8080/pay/swagger-ui/index.html; done"
+kubectl run -i --tty load-generator0 --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 3; do wget -q -O- http://service-skims-igd-api.default.svc.cluster.local:8080/igd/swagger-ui/index.html; done"
+kubectl run -i --tty load-generator0 --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 3; do wget -q -O- http://service-skims-fin-api.default.svc.cluster.local:8080/fin/swagger-ui/index.html; done"
+kubectl run -i --tty load-generator0 --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 3; do wget -q -O- http://service-skims-cus-api.default.svc.cluster.local:8080/cus/swagger-ui/index.html; done"
+kubectl run -i --tty load-generator0 --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 3; do wget -q -O- http://service-skims-cnr-api.default.svc.cluster.local:8080/cnr/swagger-ui/index.html; done"
+
+
+
+
+
+
+
+3.39.45.71	skims-msa.com
+3.39.12.217	skims-jenkins.com
+3.35.127.32	skims-kiali.com
+3.39.207.47	skims-grafana.com
+3.34.110.200	skims-k8s-dashboard.com
+
+
+http://skims-jenkins.com:8080
+http://skims-kiali.com:20001
+http://skims-grafana.com:3000
+https://skims-k8s-dashboard.com
+쿠버네티스 대시보드 토큰
+eyJhbGciOiJSUzI1NiIsImtpZCI6IkhvckFrRFNnSGI3WGNqQ3FqZEVNaUdGS2J4a1RHLUFQeGVJcGFEZTZNekkifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJla3MtYWRtaW4tdG9rZW4tOTJyMmoiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZWtzLWFkbWluIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiMjA3ZWViZGUtNzM2MS00YWYxLWI2NzMtODc4YjVlNjM5ZTU4Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmVrcy1hZG1pbiJ9.Qsi1XbfDzZ-plgT7Eg2fe1tcZN2rq7oaQeEFlMEMTM9bUOabf-0B0YayJ8yE2s_zWtGeHYqvmaLuRFkQDcZNKgi7PvUp49cA1VvXZvtV0IcvrARstiJulpOxubP6r0pmUVzd1i6svpVizNYTIHavyfqw2mPzfEFFnRc9i_XHlE0gjduX-JvNRn2CHx78Ti3xAmZRhZLv_bH2OYsXIl9cvqPTE5HjqWC9fgNGqSmBRAGkev3yY9QkXGgGDQogQR80hrtBcsTXV6_Xb6uIG_20y_CbtdHjjjVXVDSVsGMXyCmsGMFMRG4wQIZXaHIPLTdksF_Heq_gzarMVQ5w8SZSkQ
